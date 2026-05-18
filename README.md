@@ -4,6 +4,12 @@ An Arduino sketch for the **Pro Micro (ATmega32U4)** that reads two PWM channels
 
 Point one transmitter stick forward — both tracks go forward. Push it sideways — the tracks counter-rotate. Anywhere in between is mixed proportionally using the "diamond mix" algorithm so you get smooth, intuitive control on a two-tracked vehicle from a normal aircraft/car-style transmitter.
 
+## Why This Exists
+
+This sketch was written to bridge the **Stealth** control system to **REV Robotics SPARK MAX** motor controllers. The SPARK MAX accepts hobby servo PWM as one of its input modes but has no built-in way to take a single-stick throttle/steering input from an RC receiver and turn it into a tank-drive pair — it expects each channel to already represent one side of the drivetrain. Stealth, on the other hand, emits the raw throttle and steering channels from the transmitter rather than a pre-mixed left/right pair.
+
+The Pro Micro sits between them: it reads the two raw RC channels coming out of the Stealth-side receiver, runs the diamond-mix algorithm, and presents the SPARK MAX controllers with the already-mixed left/right servo PWM signals they need. Without this intermediate step there is no clean path from a Stealth transmitter to tank-drive output on a pair of SPARK MAX controllers.
+
 ## Features
 
 - Reads two RC PWM inputs (throttle + steering, 1000–2000 µs)
